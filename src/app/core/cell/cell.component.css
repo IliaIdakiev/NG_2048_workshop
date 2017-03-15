@@ -1,0 +1,80 @@
+#cell {
+  width: 80px;
+  height: 80px;
+  background-color: rgb(205, 193, 180);
+  display: inline-block;
+  vertical-align: middle;
+  margin: 2px;
+  position: relative;
+}
+
+div#cell-value {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 20px;
+  line-height: 32px;
+  height: 30px;
+  margin: auto;
+  text-align: center;
+}
+
+#cell.color-2 {
+    background: #eee4da;
+}
+
+#cell.color-4 {
+    background: #ede0c8;
+}
+
+#cell.color-8 {
+  color: #f9f6f2;
+  background: #f2b179; 
+}
+
+#cell.color-16 {
+  color: #f9f6f2;
+  background: #f59563; 
+}
+
+#cell.color-32 {
+  color: #f9f6f2;
+  background: #f67c5f; 
+}
+
+#cell.color-64 {
+  color: #f9f6f2;
+  background: #f65e3b; 
+}
+
+#cell.color-128 {
+  color: #f9f6f2;
+  background: #edcf72;
+}
+
+#cell.color-256 {
+  color: #f9f6f2;
+  background: #edcc61;
+}
+
+#cell.color-512 {
+  color: #f9f6f2;
+  background: #edc850;
+}
+
+#cell.color-1024 {
+  color: #f9f6f2;
+  background: #edc53f;
+}
+
+#cell.color-2048 {
+  color: #f9f6f2;
+  background: #edc22e;
+}
+
+#cell.color-super {
+  color: #f9f6f2;
+  background: #3c3a32;
+}

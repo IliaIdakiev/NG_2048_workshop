@@ -1,0 +1,10 @@
+<h3>Score: {{score}}</h3>
+<div id="board">  
+  <div id="game-over" *ngIf="gameOver">
+    <div id="game-over-body">
+      <h4>Game Over</h4>
+      <button (click)="restart()">Restart</button>
+    </div>
+  </div>
+  <app-cell *ngFor="let cell of cells" [cell]="cell" (success)="successHandler($event)"></app-cell>
+</div>

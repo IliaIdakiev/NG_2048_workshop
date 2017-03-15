@@ -1,0 +1,38 @@
+#board {
+  width: 348px;
+  position: relative;
+}
+
+#game-over {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: rgba(1,1,1,.4);
+}
+
+div#game-over-body {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 100%;
+  text-align: center;
+}
+
+#game-over-body h4 {
+  color: white;
+  font-size: 50px;
+  text-align: center;
+  width: 100%;
+}
+
+#game-over-body button {
+  font-size: 30px;
+  border: 0px;
+  background-color: white;
+  border-radius: 7px;
+  padding: 15px;
+  cursor: pointer;
+}
