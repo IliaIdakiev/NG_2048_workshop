@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Cell } from './cell.model';
-import { Direction } from './enums/direction';
-import { KEY_MAP } from './constants/key-map';
+import { Injectable }                   from '@angular/core';
+
+import { Cell }                         from './cell.model';
+import { Direction }                    from './enums/direction';
+import { KEY_MAP }                      from './constants/key-map';
 import { ACTION_MAP, IOperationResult } from './action-handler';
 
 import { Observable } from 'rxjs/Observable';
@@ -14,18 +15,47 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/pairwise';
 import 'rxjs/add/operator/reduce';
 
-const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+const rand           = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 const sameValueCells = (cell1: Cell, cell2: Cell) => cell1.value === cell2.value;
 
 @Injectable()
 export class GameService {
+  
+  gridSize:number   = 5;
 
-  cells: Cell[] = Array(16).fill(null).map(_ => new Cell());
-  rows: Cell[][] = [];
+  cells:   Cell[]   = Array(this.gridSize*this.gridSize).fill(null).map(_ => new Cell());
+  rows:    Cell[][] = [];
   columns: Cell[][] = [];
-  score: number = 0;
+  score:   number   = 0;
 
   private hasMoves() {
+    let hasColumnMoves = false,
+        hasRowMoves    = false,
+
+        _columns        = Array(this.gridSize).fill(null),
+        _rows           = Array(this.gridSize).fill(null);
+
+    _columns = _columns.map((_,i) => this.columns[i]);
+    _rows    = _rows   .map((_,i) => this.rows[i]);
+
+    _columns.map((x) => {
+      x.map((_,i) => {
+        if (i < this.gridSize - 1 && sameValueCells(x[i], x[i+1]))
+          hasColumnMoves = true;
+      })
+    })
+
+    _rows.map((x) => {
+      x.map((_,i) => {
+        if (i < this.gridSize - 1 && sameValueCells(x[i], x[i+1]))
+          hasColumnMoves = true;
+      })
+    })
+
+    return hasRowMoves || hasColumnMoves;
+  }
+
+  private _hasMoves() {
 
     const column1 = this.columns[0];
     const column2 = this.columns[1];
@@ -61,19 +91,20 @@ export class GameService {
   }
 
   restart() {
-    this.cells = Array(16).fill(null).map(_ => new Cell());
+    this.cells = Array(this.gridSize*this.gridSize).fill(null).map(_ => new Cell());
     this.score = 0;
     this.initializeGame();
   }
 
   initializeGame() {
      Observable.from(this.cells)
-      .bufferCount(4)
-      .bufferCount(4)
+      .bufferCount(this.gridSize)
+      .bufferCount(this.gridSize)
       .do(rows => this.rows = rows)
       .map(rows => rows.map(row => Observable.from(row)))
       .switchMap(obsArray => Observable.zip(...obsArray))
-      .bufferCount(4)
+      .bufferCount(this.gridSize)
+      // .do(_ => {console.log(this.rows, this.columns)})
       .subscribe(columns => this.columns = columns);
   }
 
@@ -86,15 +117,20 @@ export class GameService {
       .map((result: IOperationResult) => { this.score += result.mergeScore; return result; });
   }
 
-  randomize() {
-    let keepGoing = this.hasEmptyCells();
+  randomize(amount: number) {
+    let keepGoing      = this.hasEmptyCells(),
+        generatedCells = 0; // @ AK
     while (keepGoing) {
-      const randIndex = rand(0, 15);
-      const randValue = rand(1, 2) === 1 ? 2 : 4;
-      const cell: Cell = this.cells[randIndex];
+      const randIndex  = rand(0, (this.gridSize*this.gridSize) - 1),
+            randValue  = rand(1, 2) === 1 ? 2 : 4,
+            cell: Cell = this.cells[randIndex];
+
       if (!cell.value) {
         cell.value = randValue;
-        keepGoing = false;
+        generatedCells++;
+
+        if (generatedCells >= amount) // @ AK
+          keepGoing = false;
       }
     }
   }

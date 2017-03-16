@@ -1,5 +1,5 @@
 <h3>Score: {{score}}</h3>
-<div id="board">  
+<div id="board" [style.width.px]="gridSize*90">  
   <div id="game-over" *ngIf="gameOver">
     <div id="game-over-body">
       <h4>Game Over</h4>
