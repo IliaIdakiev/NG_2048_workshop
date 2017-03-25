@@ -1,4 +1,4 @@
-# Angular 2048 Workshop Game
+# Angular 2048 Workshop
 
 ## Play online: 
 [Click here](https://iliaidakiev.github.io/NG_2048_workshop/)
