@@ -28,7 +28,7 @@ function merge(operands: Cell[][][]): Observable<any> {
     .mergeMap(rows => {
       let delayTime = 0;
       return Observable.from(rows).pairwise().mergeMap(pair => {
-        delayTime += 10;
+        delayTime += 50;
         return Observable.of(pair).delay(delayTime);
       });
     })
@@ -39,7 +39,7 @@ function resetMerge(entites: Cell[][]) {
   entites.forEach(cells => cells.forEach(cell => cell.resetMerged()));
 }
 
-export const ACTION_MAP: { [x: number]: (entry: Cell[][]) => Observable<any> } = {
+export const ACTION_HANDLER: { [x: number]: (entry: Cell[][]) => Observable<any> } = {
   [Direction.Up]: (rows: Cell[][]) => {
     resetMerge(rows);
     const operands = [[rows[1], rows[0]], [rows[2], rows[1], rows[0]], [rows[3], rows[2], rows[1], rows[0]]];

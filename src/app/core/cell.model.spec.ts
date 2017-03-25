@@ -1,7 +1,9 @@
 import { Cell } from './cell.model';
 
 describe('Direction action tests', () => {
+
   let cell1: Cell, cell2: Cell, cell3: Cell;
+
   beforeEach(() => {
     cell1 = new Cell();
     cell2 = new Cell();

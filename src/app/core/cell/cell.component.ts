@@ -1,11 +1,11 @@
-import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Cell } from '../cell.model';
 @Component({
   selector: 'app-cell',
   templateUrl: './cell.component.html',
   styleUrls: ['./cell.component.css']
 })
-export class CellComponent implements OnInit {
+export class CellComponent {
   cell: Cell;
 
   @Input('cell') set _cell(cell: Cell) {
@@ -16,11 +16,10 @@ export class CellComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
   private get class(): string {
-    if (this.cell.value === null) return '';
-    else return 'color-' + this.cell.value;
+    const base = `color-${this.cell.value}`;
+    if (this.cell.value === null) return 'empty';
+    if (this.cell.wasMerged) return `${base} merged`;
+    return base;
   }
 }

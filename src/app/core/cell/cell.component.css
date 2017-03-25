@@ -6,6 +6,12 @@
   vertical-align: middle;
   margin: 2px;
   position: relative;
+  border-radius: 4px;
+  color: transparent;
+}
+
+#cell:not(.empty) {
+  transition: all 0.1s cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 div#cell-value {
@@ -21,12 +27,20 @@ div#cell-value {
   text-align: center;
 }
 
+#cell.merged {
+  -webkit-animation: merge 0.2s ease-out normal;
+  animation: merge 0.2s ease-out normal;
+  z-index: 99;
+}
+
 #cell.color-2 {
-    background: #eee4da;
+  background: #eee4da;
+  color: black;
 }
 
 #cell.color-4 {
-    background: #ede0c8;
+  background: #ede0c8;
+  color: black;
 }
 
 #cell.color-8 {
@@ -77,4 +91,24 @@ div#cell-value {
 #cell.color-super {
   color: #f9f6f2;
   background: #3c3a32;
+}
+
+@keyframes merge {
+  0% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
 }

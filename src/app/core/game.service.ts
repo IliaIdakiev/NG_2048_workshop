@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cell } from './cell.model';
 import { Direction } from './enums/direction';
 import { KEY_MAP } from './constants/key-map';
-import { ACTION_MAP, IOperationResult } from './action-handler';
+import { ACTION_HANDLER, IOperationResult } from './action-handler';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
@@ -96,7 +96,7 @@ export class GameService {
   }
 
   move(direction: Direction): Observable<any> {
-    return ACTION_MAP[direction](direction === Direction.Left || direction === Direction.Right ? this.columns : this.rows)
+    return ACTION_HANDLER[direction](direction === Direction.Left || direction === Direction.Right ? this.columns : this.rows)
       .map((result: IOperationResult) => { this.score += result.mergeScore; return result; });
   }
 

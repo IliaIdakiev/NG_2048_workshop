@@ -1,8 +1,12 @@
-<h3>Score: {{score}}</h3>
+<div id="header">
+  <h3 id="score">Score: {{score}}</h3> 
+  <button id="new-game-btn" (click)="restart()">New game</button>
+</div>
 <div id="board">  
   <div id="game-over" *ngIf="gameOver">
     <div id="game-over-body">
-      <h4>Game Over</h4>
+      <h4 *ngIf="!completed">Game Over!</h4>
+      <h4 *ngIf="completed">You win!</h4>
       <button (click)="restart()">Restart</button>
     </div>
   </div>

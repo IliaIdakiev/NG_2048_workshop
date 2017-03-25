@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  font-family: sans-serif;
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+body {
+  background: #faf8ef;
+  color: #776e65;
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  transform: translate(0, -30%);
+  text-align: center;
+}
