@@ -52,10 +52,6 @@ export class GameService {
     return hasRowMoves;
   }
 
-  // private hasEmptyCells(): boolean {
-  //   return this.cells.reduce((acc, cell) =>  acc || cell.isEmpty, false);
-  // }
-
   private getEmptyCells(): Cell[] {
     return this.cells.reduce((acc: Cell[], cell) => {
       if (cell.isEmpty) acc.push(cell);
@@ -64,7 +60,7 @@ export class GameService {
   }
 
   get isGameOver(): boolean {
-    return this.getEmptyCells().length === 0;
+    return !this.hasMoves() && this.getEmptyCells().length === 0;
   }
 
   restart() {

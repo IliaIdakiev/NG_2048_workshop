@@ -12,7 +12,7 @@ export class BoardComponent  {
 
   cells: Cell[];
   gameOver: boolean = false;
-  score: number = 0;
+  score: number = -1;
   completed: boolean = false;
 
   @HostListener('window:keyup', ['$event']) handleKeyboardEvent(event: KeyboardEvent) {
@@ -20,7 +20,7 @@ export class BoardComponent  {
     const direction = KEY_MAP[event.keyCode];
     if (this.gameOver || direction === undefined) return;
     this.game.move(direction).subscribe((mergeScore: number) => {
-      moveSuccessful = moveSuccessful || this.score <= mergeScore;
+      moveSuccessful = moveSuccessful || this.score < mergeScore;
     }, console.error, () => {
       if (this.gameOver) return;
       if (moveSuccessful) this.game.randomize();
