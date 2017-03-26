@@ -6,7 +6,7 @@ export class Cell {
   _value: number = null;
 
   set value(val: number) {
-    if (val === 16) this.success.emit(true);
+    if (val === 2048) this.success.emit(true);
     this._value = val;
   }
 
