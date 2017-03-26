@@ -23,9 +23,9 @@ export class BoardComponent  {
     this.game.move(direction).subscribe((result: IOperationResult) => {
       moveSuccessful = moveSuccessful || result.hasMoved;
     }, console.error, () => {
+      if (moveSuccessful) this.game.randomize();
       this.score = this.game.score;
       this.gameOver = this.game.isGameOver;
-      if (moveSuccessful) this.game.randomize();
     });
   }
 
