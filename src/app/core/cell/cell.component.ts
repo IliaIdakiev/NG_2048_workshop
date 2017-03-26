@@ -1,25 +1,29 @@
-import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { Component, HostBinding, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { Cell }                                                        from '../cell.model';
+import { Cell }                                                from '../cell.model';
 @Component({
   selector:     'app-cell',
   templateUrl:  './cell.component.html',
   styleUrls:    ['./cell.component.css']
 })
 export class CellComponent implements OnInit {
-  cell: Cell;
 
-  @Input('cell') set _cell(cell: Cell) {
-    if (cell.value === 14) this.success.emit(true);
-    this.cell = cell;
-  }
+  // @Input('cell') set _cell(cell: Cell) {
+  //   if (cell.value === 16) {
+  //     this.success.emit(true);
+  //   }
+  //   this.cell = cell;
+  // }
+
+  @Input()  cell: Cell;
   @Output() success: EventEmitter<boolean> = new EventEmitter();
 
-  constructor() { }
-
   ngOnInit() {
+    this.cell.catchSuccess()
+    .subscribe(_ => {
+      this.success.emit(true);
+    });
   }
-
 
   private get class(): string {
     if (this.cell.value === null) return '';

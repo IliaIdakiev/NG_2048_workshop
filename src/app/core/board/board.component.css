@@ -46,3 +46,17 @@ div#game-over-body {
   padding: 15px;
   cursor: pointer;
 }
+
+#bar {
+  text-align: center;
+  margin: 1em;
+}
+#bar button {
+  height: 36px;
+  font-size: 17px;
+  background-color: #776e65;
+  color: #f9f6f2;
+  border-radius: 3px;
+  border: 0;
+  padding: 8px 13px 10px;
+}
