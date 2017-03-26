@@ -1,6 +1,5 @@
 import { Component, HostListener} from '@angular/core';
 import { KEY_MAP } from '../constants/key-map';
-import { IOperationResult } from '../action-handler';
 import { GameService } from '../game.service';
 import { Cell } from '../cell.model';
 
@@ -16,13 +15,14 @@ export class BoardComponent  {
   score: number = 0;
   completed: boolean = false;
 
-  @HostListener('window:keydown', ['$event']) handleKeyboardEvent(event: KeyboardEvent) {
+  @HostListener('window:keyup', ['$event']) handleKeyboardEvent(event: KeyboardEvent) {
     let moveSuccessful = false;
     const direction = KEY_MAP[event.keyCode];
     if (this.gameOver || direction === undefined) return;
-    this.game.move(direction).subscribe((result: IOperationResult) => {
-      moveSuccessful = moveSuccessful || result.hasMoved;
+    this.game.move(direction).subscribe((mergeScore: number) => {
+      moveSuccessful = moveSuccessful || this.score <= mergeScore;
     }, console.error, () => {
+      if (this.gameOver) return;
       if (moveSuccessful) this.game.randomize();
       this.score = this.game.score;
       this.gameOver = this.game.isGameOver;
@@ -38,6 +38,7 @@ export class BoardComponent  {
     this.gameOver = this.completed = false;
     this.game.randomize();
     this.game.randomize();
+    this.cells.map(cell => cell.success.subscribe(this.successHandler));
   }
 
   restart() {
@@ -46,7 +47,7 @@ export class BoardComponent  {
     this.initGame();
   }
 
-  successHandler() {
+  successHandler = () => {
     this.completed = true;
     this.gameOver = true;
   }

@@ -1,6 +1,18 @@
+import { EventEmitter } from '@angular/core';
+
 export class Cell {
   wasMerged: boolean = false;
-  value: number = null;
+  success: EventEmitter<boolean> = new EventEmitter<boolean>();
+  _value: number = null;
+
+  set value(val: number) {
+    if (val === 16) this.success.emit(true);
+    this._value = val;
+  }
+
+  get value() {
+    return this._value;
+  }
 
   get isEmpty(): boolean {
     return this.value === null;

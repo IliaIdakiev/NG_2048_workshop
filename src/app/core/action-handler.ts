@@ -9,25 +9,20 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/pairwise';
 
-export interface IOperationResult { mergeScore: number; hasMoved: boolean; };
-
-function operation(entry1: Cell[], entry2: Cell[]): IOperationResult {
-  let mergeScore = 0, result1, result2, result3, result4;
-  if ((result1 = entry1[0].merge(entry2[0])) && entry1[0].wasMerged) mergeScore += entry1[0].value;
-  if ((result2 = entry1[1].merge(entry2[1])) && entry1[1].wasMerged) mergeScore += entry1[1].value;
-  if ((result3 = entry1[2].merge(entry2[2])) && entry1[2].wasMerged) mergeScore += entry1[2].value;
-  if ((result4 = entry1[3].merge(entry2[3])) && entry1[3].wasMerged) mergeScore += entry1[3].value;
-  return {
-    mergeScore,
-    hasMoved: result1 || result2 || result3 || result4
-  };
+function operation(entry1: Cell[], entry2: Cell[]): number {
+  let mergeScore = 0;
+  if (entry1[0].merge(entry2[0])) mergeScore += entry1[0].value;
+  if (entry1[1].merge(entry2[1])) mergeScore += entry1[1].value;
+  if (entry1[2].merge(entry2[2])) mergeScore += entry1[2].value;
+  if (entry1[3].merge(entry2[3])) mergeScore += entry1[3].value;
+  return mergeScore;
 }
 
 function merge(operands: Cell[][][]): Observable<any> {
   return Observable.from(operands)
-    .mergeMap(rows => {
+    .mergeMap(operand => {
       let delayTime = 0;
-      return Observable.from(rows).pairwise().mergeMap(pair => {
+      return Observable.from(operand).pairwise().mergeMap(pair => {
         delayTime += 50;
         return Observable.of(pair).delay(delayTime);
       });

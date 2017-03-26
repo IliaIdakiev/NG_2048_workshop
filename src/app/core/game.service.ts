@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cell } from './cell.model';
 import { Direction } from './enums/direction';
 import { KEY_MAP } from './constants/key-map';
-import { ACTION_HANDLER, IOperationResult } from './action-handler';
+import { ACTION_HANDLER } from './action-handler';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
@@ -52,12 +52,19 @@ export class GameService {
     return hasRowMoves;
   }
 
-  private hasEmptyCells(): boolean {
-    return this.cells.reduce((acc, cell) =>  acc || cell.isEmpty, false);
+  // private hasEmptyCells(): boolean {
+  //   return this.cells.reduce((acc, cell) =>  acc || cell.isEmpty, false);
+  // }
+
+  private getEmptyCells(): Cell[] {
+    return this.cells.reduce((acc: Cell[], cell) => {
+      if (cell.isEmpty) acc.push(cell);
+      return acc;
+    }, []);
   }
 
   get isGameOver(): boolean {
-    return !this.hasEmptyCells() && !this.hasMoves();
+    return this.getEmptyCells().length === 0;
   }
 
   restart() {
@@ -97,19 +104,14 @@ export class GameService {
 
   move(direction: Direction): Observable<any> {
     return ACTION_HANDLER[direction](direction === Direction.Left || direction === Direction.Right ? this.columns : this.rows)
-      .map((result: IOperationResult) => { this.score += result.mergeScore; return result; });
+      .map((mergeScore: number) => { this.score += mergeScore; return this.score; });
   }
 
   randomize() {
-    let keepGoing = this.hasEmptyCells();
-    while (keepGoing) {
-      const randIndex = rand(0, 15);
-      const randValue = rand(1, 2) === 1 ? 2 : 4;
-      const cell: Cell = this.cells[randIndex];
-      if (!cell.value) {
-        cell.value = randValue;
-        keepGoing = false;
-      }
-    }
+    const emptyCell: Cell[] = this.getEmptyCells();
+    if (emptyCell.length === 0) return;
+    const randIndex = rand(0, emptyCell.length - 1);
+    const randValue = rand(1, 2) === 1 ? 2 : 4;
+    emptyCell[randIndex].value = randValue;
   }
 }
