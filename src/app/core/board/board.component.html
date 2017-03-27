@@ -1,5 +1,5 @@
 <div id="header">
-  <h3 id="score">Score: {{score}}</h3> 
+  <h3 id="score">Score: {{score !== -1 ? score : 0}}</h3> 
   <button id="new-game-btn" (click)="restart()">New game</button>
 </div>
 <div id="board">  
